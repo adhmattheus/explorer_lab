@@ -9,7 +9,7 @@ function setCardType(type) {
   const colors = {
     "visa": ["#436D99", "#2D57F2"],
     "mastercard": ["#DF6F29", "#C69347"],
-    default: ["black", "gray"]
+    "default": ["black", "gray"]
   }
 
   ccBgColor01.setAttribute("fill", colors[type][0])
@@ -59,7 +59,7 @@ const cardNumberPattern = {
     },
     {
       mask: "0000 0000 0000 0000",
-      cardtype: "default",
+      cardType: "default",
     },
   ],
   dispatch: function (appended, dynamicMasked) {
@@ -90,3 +90,25 @@ cardHolder.addEventListener("input", () => {
 
   ccHolder.innerText = cardHolder.value.length === 0 ? "Mattheus Adhonnay" : cardHolder.value
 });
+
+securityCodeMasked.on("accept", () => {
+  updateSecurityCode(securityCodeMasked.value);
+});
+
+function updateSecurityCode(code) {
+  const ccSecurity = document.querySelector(".cc-security .value")
+  ccSecurity.innerText = code.length === 0 ? "123" : code
+}
+
+cardNumberMasked.on("accept", () => {
+  const cardType = cardNumberMasked.masked.currentMask.cardType
+  setCardType(cardType)
+  updateCardNumber(cardNumberMasked.value)
+});
+
+function updateCardNumber(number) {
+  const ccNumber = document.querySelector(".cc-number")
+  ccNumber.innerText = number.length === 0 ? "1324 5678 9101 1121" : number
+}
+
+
